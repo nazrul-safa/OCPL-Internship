@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ajax</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container" style="margin-top: 40px;">
+    <div class="panel panel-info">
+        <div class="panel-body" style="padding: 60px;">
+
+            <select class="form-control ajaxCall" id="responseDiv" onchange="show_hide()">
+                <option >  Select </option>
+            </select>
+            <input type="text" id="child_one" class="form-control" value="For C++" style="margin-top: 15px;visibility: hidden">
+            <textarea class="form-control" id="child_two" style="margin-top: 15px;display: none;">
+                For PHP
+            </textarea>
+        </div>
+    </div>
+</div>
+
+<div class="footerArea" style="position: absolute;bottom: 10px;border: 3px solid #8AC007;">
+    <img src="https://batworld.com/wp-content/themes/batworld/images/batworld-logo.x31866.png" style="height: 50px;">
+</div>
+</body>
+
+<script>
+
+    function show_hide(){
+       var mother_element = document.getElementById('responseDiv').value;
+
+       if(mother_element == "C++"){
+           document.getElementById('child_one').style.visibility="visible";
+           document.getElementById('child_two').style.display="none";
+       }else if(mother_element == "PHP"){
+           document.getElementById('child_one').style.visibility="hidden";
+           document.getElementById('child_two').style.display="block";
+       }else {
+           document.getElementById('child_one').style.visibility="visible";
+           document.getElementById('child_two').style.display="block";
+       }
+
+
+    }
+
+   
+    //  https://mocki.io/v1/13f3de60-6793-497a-a311-9638f710a6a8
+    $(document).ready(function() {
+
+        $(document).on('click','.ajaxCall',function () {
+
+            $.ajax({
+                url: 'https://mocki.io/v1/13f3de60-6793-497a-a311-9638f710a6a8',
+                type: 'GET',
+                dataType: 'json',
+                header: {},
+                data: {
+                    // 'name': 'JOHN',
+                    // 'age': 25,
+                },
+                success: function (reponse){
+                    document.getElementById('responseDiv').innerHTML = '';
+                    if (reponse.status == 200){
+                        var data = JSON.parse(JSON.stringify(reponse.data));
+                        data.forEach(function (element){
+                            document.getElementById('responseDiv').innerHTML +=  '<option value="' + element.id + '">' + element.name + '</option>';
+                        })
+                    }
+                }
+            })
+    
+        })
+
+        $(document).on('click','.ajaxCall',function () {
+          //  https://mocki.io/v1/13f3de60-6793-497a-a311-9638f710a6a8
+        })
+
+    })
+
+
+</script>
+</html>
